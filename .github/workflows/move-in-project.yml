@@ -1,0 +1,57 @@
+name: Move Issues in Reinvent Project Board
+
+on:
+  issues:
+    types: [milestoned, labeled, closed]
+
+jobs:
+  move-in-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Move issue to Foundation column if milestone is Foundation
+        if: github.event.issue.milestone && github.event.issue.milestone.title == 'Foundation (Sprint 1-2)'
+        uses: actions/add-to-project@v0.4.0
+        with:
+          project-url: https://github.com/users/ajeetchouksey/projects/8
+          column-name: Foundation
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Move issue to Core Features column if milestone is Core Features
+        if: github.event.issue.milestone && github.event.issue.milestone.title == 'Core Features (Sprint 3-4)'
+        uses: actions/add-to-project@v0.4.0
+        with:
+          project-url: https://github.com/users/ajeetchouksey/projects/8
+          column-name: Core Features
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Move issue to Content & Integrations column if milestone is Content & Integrations
+        if: github.event.issue.milestone && github.event.issue.milestone.title == 'Content & Integrations (Sprint 5-6)'
+        uses: actions/add-to-project@v0.4.0
+        with:
+          project-url: https://github.com/users/ajeetchouksey/projects/8
+          column-name: Content & Integrations
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Move issue to Advanced Features column if milestone is Advanced Features
+        if: github.event.issue.milestone && github.event.issue.milestone.title == 'Advanced Features (Sprint 7-8)'
+        uses: actions/add-to-project@v0.4.0
+        with:
+          project-url: https://github.com/users/ajeetchouksey/projects/8
+          column-name: Advanced Features
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Move issue to Polish & Launch column if milestone is Polish & Launch
+        if: github.event.issue.milestone && github.event.issue.milestone.title == 'Polish & Launch (Sprint 9-10)'
+        uses: actions/add-to-project@v0.4.0
+        with:
+          project-url: https://github.com/users/ajeetchouksey/projects/8
+          column-name: Polish & Launch
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Move issue to Done column if issue is closed
+        if: github.event.issue.state == 'closed'
+        uses: actions/add-to-project@v0.4.0
+        with:
+          project-url: https://github.com/users/ajeetchouksey/projects/8
+          column-name: Done
+          github-token: ${{ secrets.GITHUB_TOKEN }}
