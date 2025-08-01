@@ -1,96 +1,62 @@
-# Infra Setup
+# Infrastructure Setup for Azure Deployment
 
-## Introduction
-This document provides comprehensive instructions for building infrastructure using an AI agent. It covers the necessary steps and considerations to successfully set up an infrastructure environment that leverages AI capabilities.
+This document outlines a minimal infrastructure setup using Azure for deploying applications, suitable for learning purposes.
 
 ## Prerequisites
-Before you begin, ensure you have the following:
-- Basic knowledge of cloud platforms (e.g., AWS, Azure, GCP)
-- Familiarity with AI concepts and tools
-- Access to the necessary cloud account and permissions
+- An Azure account (you can sign up for a free account)
+- Basic knowledge of Azure services
 
-## Setting Up the Environment
-1. **Select a Cloud Provider**: Choose your preferred cloud provider (e.g., AWS, Azure, GCP).
-   - Example: For AWS, create an account at [aws.amazon.com](https://aws.amazon.com).
+## Infrastructure Components
+1. **Azure App Service**: Use Azure App Service to host your web applications. It provides a fully managed platform for building, deploying, and scaling your web apps.
 
-2. **Install Required Tools**: Ensure you have the required command-line tools installed.
-   - For AWS, install the AWS CLI:
-     ```bash
-     pip install awscli
-     ```
-   - For GCP, install the Google Cloud SDK:
-     ```bash
-     curl https://sdk.cloud.google.com | bash
-     ```
+2. **Azure SQL Database**: For applications needing a relational database, Azure SQL Database is a scalable, managed database service.
 
-3. **Configure Your CLI**: Set up the command-line tools with your credentials.
-   - For AWS:
-     ```bash
-     aws configure
-     ```
-   - For GCP:
-     ```bash
-     gcloud init
-     ```
+3. **Azure Storage**: Use Azure Blob Storage to store unstructured data like images, videos, and documents.
 
-## Defining Infrastructure Requirements
-1. **Identify Resources**: Determine which resources you need (e.g., VMs, databases, networking).
-2. **Define Specifications**: Write down the specifications for each resource.
-   - Example:
-     - EC2 Instance: t2.micro, 1 vCPU, 1 GB RAM
-     - RDS Database: db.t2.micro, MySQL, 20 GB storage
+## Steps for Basic App Deployment
+1. **Create Azure App Service**:
+   - Go to the Azure portal.
+   - Click on 'Create a Resource'.
+   - Select 'Web App' under the 'Web' category.
+   - Fill in the required details (Subscription, Resource Group, and App Name).
+   - Select a runtime stack and click 'Review + Create'.
 
-## Executing Infrastructure Setup
-1. **Create Resources**: Use your cloud provider's dashboard or CLI to create the resources.
-   - AWS CLI example for EC2:
-     ```bash
-     aws ec2 run-instances --image-id ami-12345678 --count 1 --instance-type t2.micro
-     ```
+2. **Deploy Your Application**:
+   - You can deploy your application using various methods like Azure DevOps, GitHub Actions, or direct ZIP upload.
+   - For GitHub Actions:
+     - Create a `.github/workflows/azure.yml` file in your repository.
+     - Use the following template to set up your workflow:
+       ```yaml
+       name: Azure Web Apps Deploy
+       on:
+         push:
+           branches:
+             - main
+       jobs:
+         build:
+           runs-on: ubuntu-latest
+           steps:
+             - name: Checkout code
+               uses: actions/checkout@v2
+             - name: Setup Node.js
+               uses: actions/setup-node@v2
+               with:
+                 node-version: '14'
+             - name: Build
+               run: |
+                 npm install
+                 npm run build
+             - name: Deploy to Azure Web App
+               uses: azure/webapps-deploy@v2
+               with:
+                 app-name: <your-app-name>
+                 publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+                 package: .
+       ```
+   - Replace `<your-app-name>` with the name of your Azure App Service.
+   - Make sure to set up the Azure publish profile in the GitHub secrets.
 
-2. **Automate with Scripts**: Create scripts to automate the setup process.
-   - Example script for AWS CloudFormation:
-     ```yaml
-     Resources:
-       MyInstance:
-         Type: AWS::EC2::Instance
-         Properties:
-           InstanceType: t2.micro
-           ImageId: ami-12345678
-     ```
-
-## Validating the Deployment
-1. **Check Resource Status**: Verify that all resources are running as expected.
-   - For AWS:
-     ```bash
-     aws ec2 describe-instances
-     ```
-
-2. **Access Your Services**: Test access to services (e.g., SSH into an EC2 instance).
-   - Example:
-     ```bash
-     ssh -i your-key.pem ec2-user@your-instance-ip
-     ```
-
-## Monitoring and Maintenance
-1. **Set Up Monitoring Tools**: Utilize cloud monitoring tools to keep track of resource performance.
-   - For AWS, use CloudWatch to monitor metrics.
-   - Example:
-     ```bash
-     aws cloudwatch put-metric-alarm --alarm-name "High CPU Alarm" --metric-name CPUUtilization --namespace AWS/EC2 --statistic Average --period 300 --threshold 70 --comparison-operator GreaterThanThreshold
-     ```
-
-2. **Regular Maintenance**: Schedule regular maintenance tasks (e.g., updates, backups).
-
-## Troubleshooting
-1. **Common Issues**: Document common issues and their resolutions.
-   - Issue: Instance fails to start
-     - Solution: Check if the instance type is supported in your region.
-
-2. **Logs and Diagnostics**: Use logs to diagnose issues.
-   - Example for AWS:
-     ```bash
-     aws logs describe-log-groups
-     ```
+3. **Monitor and Scale**: Use Azure Monitor and Azure Application Insights to monitor the performance and usage of your application. You can scale your App Service plan as needed based on traffic.
 
 ## Conclusion
-Following these steps will help you set up and maintain your infrastructure using an AI agent effectively. Always stay updated with the latest tools and practices for optimal performance.
+This minimal setup will help you get started with deploying applications on Azure. As you grow more comfortable, explore other Azure services and their advanced features.
