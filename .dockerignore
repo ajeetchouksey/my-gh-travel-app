@@ -1,0 +1,13 @@
+node_modules
+npm-debug.log
+coverage
+.git
+.env*
+tests
+docs
+*.md
+.eslintrc.js
+.gitignore
+Dockerfile
+docker-compose.yml
+ecosystem.config.js
