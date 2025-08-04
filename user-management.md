@@ -25,3 +25,18 @@ When a user accesses the web app, prompt them to provide their app ID. If the us
 ## Privacy and Compliance
 - Do not store personal information directly in the app.
 - Utilize anonymized app IDs and encrypted data storage to protect user privacy.
+
+## Features
+
+- User Registration
+- User Login
+- Password Reset
+- User Profile Management
+
+## Technical Suggestions
+
+- Implement JWT for secure authentication.
+- Use bcrypt for hashing passwords.
+- Ensure email verification for new users.
+- Consider implementing rate limiting for login attempts to enhance security.
+- Integrate social media logins (e.g., Google, Facebook) for user convenience.
